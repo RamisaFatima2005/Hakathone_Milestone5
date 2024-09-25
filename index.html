@@ -3,48 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Resume Builder</title>
+    <title>Milestone5</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
 <body>
+    <form id="resume-form">
+      <h1>Unique Path and Shareable Link Resume Builder</h1>
 
-<form id="resume-form">
-    <label for="name">Name:</label>
-    <input type="text" id="name" required>
-    <label for="email">Email:</label>
-    <input type="email" id="email" required>
-    <label for="education">Education:</label>
-    <input type="text" id="education" required>
-    <label for="work-experience">Work Experience:</label>
-    <input type="text" id="work-experience" required>
-    <label for="skills">Skills:</label>
-    <input type="text" id="skills" required>
-    <button type="submit">Generate Resume</button>
-</form>
+      <label for="name">Name:</label>
+      <input type="text" id="name" required>
+      <label for="email">Email:</label>
+      <input type="email" id="email" required>
+      <label for="education">Education:</label>
+      <input type="text" id="education" required>
+      <label for="work-experience">Work Experience:</label>
+      <input type="text" id="work-experience" required>
+      <label for="skills">Skills:</label>
+      <input type="text" id="skills" required>
+      <button type="submit">Generate Resume</button>
+    </form>
 
-<div id="resume" style="display: none;">
-    <h1 id="name-display"></h1>
-    <p id="email-display"></p>
-    <h2 id="education-display">Education</h2>
-    <p id="education-content"></p>
-    <h2 id="work-experience-display">Work Experience</h2>
-    <p id="work-experience-content"></p>
-    <h2 id="skills-display">Skills</h2>
-    <p id="skills-content"></p>
-    <button id="edit-resume" style="display: none;">Edit Resume</button>
-    <div id="edit-fields" style="display: none;">
+    <div id="resume">
+      <h1 id="name-display"></h1>
+      <p id="email-display"></p>
+      <h2>Education</h2>
+      <p id="education-content"></p>
+      <h2>Work Experience</h2>
+      <p id="work-experience-content"></p>
+      <h2>Skills</h2>
+      <p id="skills-content"></p>
+
+      <button id="edit-resume" style="display: none;">Edit Resume</button>
+      <div id="edit-fields" style="display: none;">
         <input type="text" id="edit-name">
         <input type="email" id="edit-email">
         <input type="text" id="edit-education">
         <input type="text" id="edit-work-experience">
         <input type="text" id="edit-skills">
         <button id="save-edits">Save Edits</button>
-    </div>
-    <a id="share-link" style="display: none;" target="_blank"></a>
-    <button id="download-pdf" style="display: none;">Download PDF</button>
-</div>
+      </div>
 
-<script src="main.js"></script>
+      <input type="text" id="share-link" readonly style="display: none;">
+      <button id="download-resume" style="display: none;">Download Resume as PDF</button>
+    </div>
+
+    <script src="main.js"></script>
 </body>
 </html>

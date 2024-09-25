@@ -1,4 +1,3 @@
-// Get references to DOM elements
 var form = document.getElementById('resume-form');
 var resumeContainer = document.getElementById('resume');
 var nameDisplay = document.getElementById('name-display');
@@ -9,79 +8,62 @@ var skillsContent = document.getElementById('skills-content');
 var editButton = document.getElementById('edit-resume');
 var editFields = document.getElementById('edit-fields');
 var saveEditsButton = document.getElementById('save-edits');
-var shareLink = document.getElementById('share-link');
-var downloadButton = document.getElementById('download-pdf');
-// Function to generate a unique URL based on the user's name
-function generateUniqueURL(name) {
-    var baseURL = "https://your-netlify-site.netlify.app/resume";
-    var uniqueIdentifier = encodeURIComponent(name.trim().toLowerCase());
-    return "".concat(baseURL, "/").concat(uniqueIdentifier);
-}
-// Function to handle the resume submission
+var downloadButton = document.getElementById('download-resume');
+var shareLinkInput = document.getElementById('share-link');
 form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var resumeData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        education: document.getElementById('education').value,
-        workExperience: document.getElementById('work-experience').value,
-        skills: document.getElementById('skills').value,
-    };
-    // Display the resume data
-    nameDisplay.textContent = resumeData.name;
-    emailDisplay.textContent = resumeData.email;
-    educationContent.textContent = resumeData.education;
-    workExperienceContent.textContent = resumeData.workExperience;
-    skillsContent.textContent = resumeData.skills;
-    // Show the resume section
-    resumeContainer.style.display = 'block';
-    // Show the share link and download button
-    var uniqueURL = generateUniqueURL(resumeData.name);
-    shareLink.textContent = "Share your resume: ".concat(uniqueURL);
-    shareLink.href = uniqueURL;
-    shareLink.style.display = 'block';
-    downloadButton.style.display = 'block';
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+    var education = document.getElementById('education').value;
+    var workExperience = document.getElementById('work-experience').value;
+    var skills = document.getElementById('skills').value;
+    // Update the resume display
+    nameDisplay.textContent = name;
+    emailDisplay.textContent = email;
+    educationContent.textContent = education;
+    workExperienceContent.textContent = workExperience;
+    skillsContent.textContent = skills;
+    // Generate unique URL based on name
+    var uniqueUrl = "".concat(window.location.origin, "/resume/").concat(name.replace(/\s+/g, '-').toLowerCase());
+    shareLinkInput.value = uniqueUrl;
+    shareLinkInput.style.display = 'block';
+    // Show edit and download buttons
     editButton.style.display = 'block';
+    downloadButton.style.display = 'block';
+    resumeContainer.style.display = 'block';
 });
-// Event listener for editing the resume
 editButton.addEventListener('click', function () {
+    // Show editable fields and hide edit button
     editFields.style.display = 'block';
     editButton.style.display = 'none';
-    var editName = document.getElementById('edit-name');
-    var editEmail = document.getElementById('edit-email');
-    var editEducation = document.getElementById('edit-education');
-    var editWorkExperience = document.getElementById('edit-work-experience');
-    var editSkills = document.getElementById('edit-skills');
-    editName.value = nameDisplay.textContent || '';
-    editEmail.value = emailDisplay.textContent || '';
-    editEducation.value = educationContent.textContent || '';
-    editWorkExperience.value = workExperienceContent.textContent || '';
-    editSkills.value = skillsContent.textContent || '';
+    // Prefill the fields with current resume data
+    document.getElementById('edit-name').value = nameDisplay.textContent || '';
+    document.getElementById('edit-email').value = emailDisplay.textContent || '';
+    document.getElementById('edit-education').value = educationContent.textContent || '';
+    document.getElementById('edit-work-experience').value = workExperienceContent.textContent || '';
+    document.getElementById('edit-skills').value = skillsContent.textContent || '';
 });
-// Event listener for saving edits
 saveEditsButton.addEventListener('click', function () {
+    // Get values from editable fields
     var editName = document.getElementById('edit-name').value;
     var editEmail = document.getElementById('edit-email').value;
     var editEducation = document.getElementById('edit-education').value;
     var editWorkExperience = document.getElementById('edit-work-experience').value;
     var editSkills = document.getElementById('edit-skills').value;
+    // Update resume with edited information
     nameDisplay.textContent = editName;
     emailDisplay.textContent = editEmail;
     educationContent.textContent = editEducation;
     workExperienceContent.textContent = editWorkExperience;
     skillsContent.textContent = editSkills;
+    // Hide the editable fields and show the edit button again
     editFields.style.display = 'none';
     editButton.style.display = 'block';
 });
-// Download PDF functionality
 downloadButton.addEventListener('click', function () {
-    var jsPDF = window.jspdf.jsPDF;
-    var doc = new jsPDF();
-    doc.text("Resume", 10, 10);
-    doc.text("Name: ".concat(nameDisplay.textContent), 10, 20);
-    doc.text("Email: ".concat(emailDisplay.textContent), 10, 30);
-    doc.text("Education: ".concat(educationContent.textContent), 10, 40);
-    doc.text("Work Experience: ".concat(workExperienceContent.textContent), 10, 50);
-    doc.text("Skills: ".concat(skillsContent.textContent), 10, 60);
-    doc.save('resume.pdf');
+    // Create a new window for the PDF
+    var pdfWindow = window.open('', '', 'width=800,height=600');
+    pdfWindow === null || pdfWindow === void 0 ? void 0 : pdfWindow.document.write("\n    <html>\n    <head>\n      <title>Resume PDF</title>\n    </head>\n    <body>\n      <h1>".concat(nameDisplay.textContent, "</h1>\n      <p>Email: ").concat(emailDisplay.textContent, "</p>\n      <h2>Education</h2>\n      <p>").concat(educationContent.textContent, "</p>\n      <h2>Work Experience</h2>\n      <p>").concat(workExperienceContent.textContent, "</p>\n      <h2>Skills</h2>\n      <p>").concat(skillsContent.textContent, "</p>\n    </body>\n    </html>\n  "));
+    pdfWindow === null || pdfWindow === void 0 ? void 0 : pdfWindow.document.close();
+    pdfWindow === null || pdfWindow === void 0 ? void 0 : pdfWindow.print(); // Trigger the browser's print-to-PDF functionality
 });
